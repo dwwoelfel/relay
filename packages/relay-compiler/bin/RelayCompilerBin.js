@@ -138,7 +138,8 @@ Ensure that one such file exists in ${srcDir} or its parents.
     default: {
       getWriter: getRelayFileWriter(srcDir),
       isGeneratedFile: (filePath: string) =>
-        filePath.endsWith('.js') && filePath.includes('__generated__'),
+        (filePath.endsWith('.js') && filePath.includes('__generated__')) ||
+        (filePath.endsWith('.re') && filePath.includes('__generated__')),
       parser: 'default',
     },
   };

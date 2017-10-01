@@ -49,7 +49,8 @@ const babelOptions = require('./scripts/getBabelOptions')({
     RelayRuntime: 'relay-runtime',
     signedsource: 'signedsource',
     util: 'util',
-    yargs: 'yargs'
+    yargs: 'yargs',
+    'reasonably-typed': '@dww/reasonably-typed'
   },
   plugins: [
     'transform-flow-strip-types',

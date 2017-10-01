@@ -13,12 +13,14 @@
 
 const RelayCompiler = require('../RelayCompiler');
 const RelayFlowGenerator = require('../core/RelayFlowGenerator');
+const RelayReasonGenerator = require('../core/RelayReasonGenerator');
 const RelayParser = require('../core/RelayParser');
 const RelayValidator = require('../core/RelayValidator');
 
 const invariant = require('invariant');
 const path = require('path');
 const writeRelayGeneratedFile = require('./writeRelayGeneratedFile');
+const writeReasonRelayGeneratedFile = require('./writeReasonRelayGeneratedFile');
 
 const {generate} = require('../core/RelayCodeGenerator');
 const {
@@ -218,6 +220,21 @@ class RelayFileWriter implements FileWriterInterface {
             this._config.platform,
             this._config.relayRuntimeModule || 'relay-runtime',
           );
+
+          const reasonTypes = RelayReasonGenerator.generateTypes(
+            node,
+            this._config.customScalars,
+            this._config.inputFieldWhiteListForFlow,
+          );
+
+          if (reasonTypes) {
+            await writeReasonRelayGeneratedFile(
+              getGeneratedDirectory(compiledNode.name),
+              getGeneratedNode(compiledNode),
+              reasonTypes,
+              this._config.platform,
+            );
+          }
         }),
       );
       tGenerated = Date.now();
